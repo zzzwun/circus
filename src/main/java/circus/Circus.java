@@ -1,13 +1,13 @@
 package circus;
 
+import circus.animal.*;
 import circus.equipment.Equipment;
 import circus.equipment.Cannon;
 import circus.equipment.Ladder;
 
-import circus.animal.Tiger;
-import circus.animal.Animal;
-import circus.animal.Duck;
-import circus.animal.Parrot;
+import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Circus {
     private static Animal[] animals = {
@@ -42,8 +42,54 @@ public class Circus {
     }
 
     public static void main(String[] args) {
-        makeAnimalsTalk();
-        System.out.println("Total value of animals " + calculateAssetValue(animals));
-        System.out.println("Total value of equipments " + calculateAssetValue(equipments));
+
+        System.out.println("Number of animals in the circus: " + animals.length);
+
+        /*for (Animal a : animals) {
+            System.out.println(a);
+        }*/
+
+        System.out.println("(Using Array) Number of animals in the circus: " + animals.length);
+
+        ArrayList<Animal> animalArrayList = new ArrayList<>(Arrays.asList(animals));
+        //printAllAnimals(animalArrayList);
+
+        System.out.println("Add a new elephant");
+        animalArrayList.add(new Elephant("StrongOne"));
+        System.out.println("(Using ArrayList) Number of animals in the circus: " + animalArrayList.size());
+
+        printAllAnimals(animalArrayList);
+
+        Parrot andy = new Parrot("Andy");
+        animalArrayList.add(andy);
+
+        printAllAnimals(animalArrayList);
+//        System.out.println("(Using ArrayList) Number of animals in the circus: " + animalArrayList.size());
+//        System.out.println("Position of Andy in the AL is " + animalArrayList.indexOf(andy));
+
+        Animal candidate = findAnimalReference(animalArrayList, "Polly");
+        System.out.println("Position of candidate in the AL is " + animalArrayList.indexOf(candidate));
+
+        animalArrayList.sort(Animal.animalNameComparator);
+
+        //makeAnimalsTalk();
+        //System.out.println("Total value of animals " + calculateAssetValue(animals));
+        //System.out.println("Total value of equipments " + calculateAssetValue(equipments));
     }
+
+    private static void printAllAnimals(ArrayList<Animal> animals) {
+        for (Animal a : animals) {
+            System.out.println(a);
+        }
+    }
+
+    private static Animal findAnimalReference(ArrayList<Animal> animals, String nameOfAnimal) {
+        for (Animal a : animals) {
+            if (a.name == nameOfAnimal) {
+                return a;
+            }
+        }
+        return null;
+    }
+
 }
